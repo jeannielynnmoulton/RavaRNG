@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 /**
- * Generates a random integer subject to constraints.
- * TODO: the results cannot be chained, so this should be fixed in later work
+ * Generates a random integer subject to constraints. Results can be chained.
+ * For example {@code new RandomInteger().even().between(1, 100)}.
  */
 public class RandomInteger {
     private final Random random = new Random();
@@ -17,18 +17,24 @@ public class RandomInteger {
      */
     private static final int LIMIT = 100;
 
+    // TODO: defaults are not stated in the documentation
+    private int min = 0;
+    private int max = Integer.MAX_VALUE;
+
     /**
      * Constrain the result to be even
      */
-    public void even() {
+    public RandomInteger even() {
         constraints.add(i -> i % 2 == 0);
+        return this;
     }
 
     /**
      * Constrain the result to be odd
      */
-    public void odd() {
+    public RandomInteger odd() {
         constraints.add(i -> i % 2 == 1);
+        return this;
     }
 
     public Integer generate() {
@@ -36,7 +42,8 @@ public class RandomInteger {
         boolean constraintEval = false;
         Integer candidate = null;
         while(counter++ <= LIMIT && !constraintEval) {
-            candidate = random.nextInt();
+            // TODO: this introduces an error for large positive or negative max/min, and this is untested
+            candidate = random.nextInt(max-min)+min;
             int finalCandidate = candidate;
             constraintEval = constraints.stream()
                     .map(constraint -> constraint.apply(finalCandidate))
@@ -50,12 +57,15 @@ public class RandomInteger {
      * @param min the min value, inclusive
      * @param max the max value, inclusive
      */
-    public void between(int min, int max) {
+    public RandomInteger between(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("min must be less than max");
         }
         // TODO: the constraint does not match the description and is untested.
-        constraints.add(i -> i > min && i < max);
+        // TODO: it also does not address this issue of multiple calls to between
+        this.min = min;
+        this.max = max;
+        return this;
     }
 }
 

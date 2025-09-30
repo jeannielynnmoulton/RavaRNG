@@ -12,7 +12,8 @@ class RandomIntegerTest {
     @Test
     void testEven() {
         RandomInteger randomInteger = new RandomInteger();
-        randomInteger.even();
+        RandomInteger randomIntegerEven = randomInteger.even();
+        assertSame(randomInteger, randomIntegerEven);
         assertEquals(0, randomInteger.generate() % 2);
     }
 
@@ -22,8 +23,23 @@ class RandomIntegerTest {
     @Test
     void testOdd() {
         RandomInteger randomInteger = new RandomInteger();
-        randomInteger.odd();
+        RandomInteger randomIntegerOdd = randomInteger.odd();
+        assertSame(randomInteger, randomIntegerOdd);
         assertEquals(1, randomInteger.generate() % 2);
+    }
+
+    /**
+     * Good there is a test, bad that it is random.
+     */
+    @Test
+    void testChained() {
+        int min = 0;
+        int max = 100;
+        RandomInteger randomInteger = new RandomInteger().odd().between(min, max);
+        Integer result = randomInteger.generate();
+        assertEquals(1, result % 2);
+        assertTrue(result > min);
+        assertTrue(result < max);
     }
 
     /**
