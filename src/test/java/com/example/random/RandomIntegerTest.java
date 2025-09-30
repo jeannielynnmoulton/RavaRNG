@@ -33,6 +33,7 @@ class RandomIntegerTest {
     void testOddAndEven() {
         RandomInteger randomInteger = new RandomInteger();
         randomInteger.odd();
+        randomInteger.even();
         assertNull(randomInteger.generate());
     }
 
