@@ -2,6 +2,7 @@ package com.example.generators;
 
 import java.util.Random;
 
+/** Random number generation for Integer. */
 public class RandomIntegerStrategy extends RandomStrategy<Integer> {
 
   public RandomIntegerStrategy() {
