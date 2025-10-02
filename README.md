@@ -9,6 +9,17 @@ Intended to showcase software engineering best practices using
 
 over different commits and is a work-in-progress.
 
+## Usage
+
+Current capabilities include generating random integers or longs subject
+to configurable constraints like even, odd or in a range. 
+
+Example usage:
+```
+RandomInteger<Integer> randomInteger = new RandomInteger<>(new RandomIntegerStrategy());
+Integer result = randomInteger.odd().between(0, 100).generate();
+```
+
 ## Contributing
 
 Please contribute changes through pull requests. Spotless is used to check
