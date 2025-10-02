@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-public class RandomInteger<IntegralType> {
+public class RandomInteger<T extends Number> {
 
     private final Random random = new Random();
 
@@ -25,7 +25,7 @@ public class RandomInteger<IntegralType> {
     /**
      * Constrain the result to be even
      */
-    public RandomInteger<IntegralType> even() {
+    public RandomInteger<T> even() {
         constraints.add(i -> (long)i % 2 == 0);
         return this;
     }
@@ -33,9 +33,9 @@ public class RandomInteger<IntegralType> {
     /**
      * Constrain the result to be odd
      */
-    public RandomInteger<IntegralType> odd() {
+    public RandomInteger<T> odd() {
         constraints.add(i -> (long)i % 2 == 1);
-        return (RandomInteger<IntegralType>) this;
+        return this;
     }
 
     public Number generate() {
@@ -58,7 +58,7 @@ public class RandomInteger<IntegralType> {
      * @param min the min value, inclusive
      * @param max the max value, inclusive
      */
-    public RandomInteger<IntegralType> between(int min, int max) {
+    public RandomInteger<T> between(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("min must be less than max");
         }
