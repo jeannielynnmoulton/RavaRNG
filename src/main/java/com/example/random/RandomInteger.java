@@ -19,8 +19,12 @@ public class RandomInteger<T extends Number> {
      */
     private static final int LIMIT = 100;
 
-    private int min = 0;
-    private int max = Integer.MAX_VALUE;
+    private T min;
+    private T max;
+
+    public RandomInteger(T min, T max) {
+        between(min, max);
+    }
 
     /**
      * Constrain the result to be even
@@ -44,7 +48,7 @@ public class RandomInteger<T extends Number> {
         Number candidate = null;
         while(counter++ <= LIMIT && !constraintEval) {
             // TODO: this introduces an error for large positive or negative max/min, and this is untested
-            candidate = random.nextLong(max-min)+min;
+            candidate = random.nextLong(max.longValue()-min.longValue())+min.longValue();
             Number finalCandidate = candidate;
             constraintEval = constraints.stream()
                     .map(constraint -> constraint.apply(finalCandidate))
@@ -58,8 +62,8 @@ public class RandomInteger<T extends Number> {
      * @param min the min value, inclusive
      * @param max the max value, inclusive
      */
-    public RandomInteger<T> between(int min, int max) {
-        if (min >= max) {
+    public RandomInteger<T> between(T min, T max) {
+        if (min.longValue() >= max.longValue()) {
             throw new IllegalArgumentException("min must be less than max");
         }
         // TODO: the constraint does not match the description and is untested.

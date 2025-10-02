@@ -11,7 +11,7 @@ class RandomIntegerTest {
      */
     @Test
     void testEven_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
         RandomInteger<Integer> randomIntegerEven = randomInteger.even();
         assertSame(randomInteger, randomIntegerEven);
         assertEquals(0, randomInteger.generate().intValue() % 2);
@@ -22,7 +22,7 @@ class RandomIntegerTest {
      */
     @Test
     void testOdd_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
         RandomInteger<Integer> randomIntegerOdd = randomInteger.odd();
         assertSame(randomInteger, randomIntegerOdd);
         assertEquals(1, randomInteger.generate().intValue() % 2);
@@ -35,7 +35,7 @@ class RandomIntegerTest {
     void testChained_Integer() {
         int min = 0;
         int max = 100;
-        RandomInteger<Integer> randomInteger = new RandomInteger<Integer>().odd().between(min, max);
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(min, max).odd().between(min, max);
         Number result = randomInteger.generate();
         assertEquals(1, result.intValue() % 2);
         assertTrue(result.intValue() > min);
@@ -47,7 +47,7 @@ class RandomIntegerTest {
      */
     @Test
     void testOddAndEven_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
         randomInteger.odd();
         randomInteger.even();
         assertNull(randomInteger.generate());
@@ -58,7 +58,7 @@ class RandomIntegerTest {
      */
     @Test
     void testEven_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
         RandomInteger<Long> randomIntegerEven = randomInteger.even();
         assertSame(randomInteger, randomIntegerEven);
         assertEquals(0, randomInteger.generate().longValue() % 2);
@@ -69,7 +69,7 @@ class RandomIntegerTest {
      */
     @Test
     void testOdd_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
         RandomInteger<Long> randomIntegerOdd = randomInteger.odd();
         assertSame(randomInteger, randomIntegerOdd);
         assertEquals(1, randomInteger.generate().longValue() % 2);
@@ -80,9 +80,9 @@ class RandomIntegerTest {
      */
     @Test
     void testChained_Long() {
-        int min = 0;
-        int max = 100;
-        RandomInteger<Long> randomInteger = new RandomInteger<Long>().odd().between(min, max);
+        long min = 0;
+        long max = 100;
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, Long.MAX_VALUE).odd().between(min, max);
         Number result = randomInteger.generate();
         assertEquals(1, result.longValue() % 2);
         assertTrue(result.longValue() > min);
@@ -94,7 +94,7 @@ class RandomIntegerTest {
      */
     @Test
     void testOddAndEven_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
         randomInteger.odd();
         randomInteger.even();
         assertNull(randomInteger.generate());
