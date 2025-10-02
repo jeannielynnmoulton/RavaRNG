@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Generate random integral types, e.g. Integers subject to constraints such as even, odd, between
+ * two numbers.
+ *
+ * @param <T> The integral type to generate numbers for, e.g. Integer, Long, Short
+ */
 public class RandomInteger<T extends Number> {
 
   private final RandomStrategy<T> randomStrategy;
@@ -36,6 +42,11 @@ public class RandomInteger<T extends Number> {
     return this;
   }
 
+  /**
+   * Use this to generate a random number subject to the stored constraints.
+   *
+   * @return a random number subject to the constraints applied
+   */
   public T generate() {
     int counter = 0;
     boolean constraintEval = false;

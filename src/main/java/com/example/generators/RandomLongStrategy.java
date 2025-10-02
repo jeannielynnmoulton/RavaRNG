@@ -2,6 +2,7 @@ package com.example.generators;
 
 import java.util.Random;
 
+/** Random number generation for Long. */
 public class RandomLongStrategy extends RandomStrategy<Long> {
 
   public RandomLongStrategy() {
