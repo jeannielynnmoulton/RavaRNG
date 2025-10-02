@@ -1,5 +1,8 @@
 package com.example.random;
 
+import com.example.generators.RandomIntegerStrategy;
+import com.example.generators.RandomStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,12 +10,12 @@ import java.util.function.Function;
 
 public class RandomInteger<T extends Number> {
 
-    private final Random random = new Random();
+    private final RandomStrategy<T> randomStrategy;
 
     /**
      * Holds the list of constraints that need to be satisfied
      */
-    private final List<Function<Number,Boolean>> constraints = new ArrayList<>();
+    private final List<Function<T,Boolean>> constraints = new ArrayList<>();
 
     /**
      * Max iterations allowed to generate number
@@ -22,15 +25,16 @@ public class RandomInteger<T extends Number> {
     private T min;
     private T max;
 
-    public RandomInteger(T min, T max) {
+    public RandomInteger(T min, T max, RandomStrategy<T> strategy) {
         between(min, max);
+        this.randomStrategy = strategy;
     }
 
     /**
      * Constrain the result to be even
      */
     public RandomInteger<T> even() {
-        constraints.add(i -> (long)i % 2 == 0);
+        constraints.add(i -> i.longValue() % 2 == 0);
         return this;
     }
 
@@ -38,18 +42,18 @@ public class RandomInteger<T extends Number> {
      * Constrain the result to be odd
      */
     public RandomInteger<T> odd() {
-        constraints.add(i -> (long)i % 2 == 1);
+        constraints.add(i -> i.longValue() % 2 == 1);
         return this;
     }
 
-    public Number generate() {
+    public T generate() {
         int counter = 0;
         boolean constraintEval = false;
-        Number candidate = null;
+        T candidate = null;
         while(counter++ <= LIMIT && !constraintEval) {
             // TODO: this introduces an error for large positive or negative max/min, and this is untested
-            candidate = random.nextLong(max.longValue()-min.longValue())+min.longValue();
-            Number finalCandidate = candidate;
+            candidate = randomStrategy.next(min, max);
+            T finalCandidate = candidate;
             constraintEval = constraints.stream()
                     .map(constraint -> constraint.apply(finalCandidate))
                     .reduce(true, (previous, result) -> previous & result);

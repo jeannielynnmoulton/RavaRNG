@@ -1,5 +1,8 @@
 package com.example.random;
 
+import com.example.generators.RandomIntegerStrategy;
+import com.example.generators.RandomLongStrategy;
+import com.example.generators.RandomStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,10 +14,11 @@ class RandomIntegerTest {
      */
     @Test
     void testEven_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
+        RandomStrategy<Integer> strategy = new RandomIntegerStrategy();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100, strategy);
         RandomInteger<Integer> randomIntegerEven = randomInteger.even();
         assertSame(randomInteger, randomIntegerEven);
-        assertEquals(0, randomInteger.generate().intValue() % 2);
+        assertEquals(0, randomInteger.generate() % 2);
     }
 
     /**
@@ -22,10 +26,11 @@ class RandomIntegerTest {
      */
     @Test
     void testOdd_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
+        RandomStrategy<Integer> strategy = new RandomIntegerStrategy();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100, strategy);
         RandomInteger<Integer> randomIntegerOdd = randomInteger.odd();
         assertSame(randomInteger, randomIntegerOdd);
-        assertEquals(1, randomInteger.generate().intValue() % 2);
+        assertEquals(1, randomInteger.generate() % 2);
     }
 
     /**
@@ -35,11 +40,13 @@ class RandomIntegerTest {
     void testChained_Integer() {
         int min = 0;
         int max = 100;
-        RandomInteger<Integer> randomInteger = new RandomInteger<>(min, max).odd().between(min, max);
-        Number result = randomInteger.generate();
-        assertEquals(1, result.intValue() % 2);
-        assertTrue(result.intValue() > min);
-        assertTrue(result.intValue() < max);
+        RandomStrategy<Integer> strategy = new RandomIntegerStrategy();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(min, max, strategy);
+        randomInteger.odd().between(min, max);
+        Integer result = randomInteger.generate();
+        assertEquals(1, result % 2);
+        assertTrue(result > min);
+        assertTrue(result < max);
     }
 
     /**
@@ -47,7 +54,8 @@ class RandomIntegerTest {
      */
     @Test
     void testOddAndEven_Integer() {
-        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100);
+        RandomStrategy<Integer> strategy = new RandomIntegerStrategy();
+        RandomInteger<Integer> randomInteger = new RandomInteger<>(0, 100, strategy);
         randomInteger.odd();
         randomInteger.even();
         assertNull(randomInteger.generate());
@@ -58,10 +66,11 @@ class RandomIntegerTest {
      */
     @Test
     void testEven_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
+        RandomStrategy<Long> strategy = new RandomLongStrategy();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L, strategy);
         RandomInteger<Long> randomIntegerEven = randomInteger.even();
         assertSame(randomInteger, randomIntegerEven);
-        assertEquals(0, randomInteger.generate().longValue() % 2);
+        assertEquals(0, randomInteger.generate() % 2);
     }
 
     /**
@@ -69,10 +78,11 @@ class RandomIntegerTest {
      */
     @Test
     void testOdd_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
+        RandomStrategy<Long> strategy = new RandomLongStrategy();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L, strategy);
         RandomInteger<Long> randomIntegerOdd = randomInteger.odd();
         assertSame(randomInteger, randomIntegerOdd);
-        assertEquals(1, randomInteger.generate().longValue() % 2);
+        assertEquals(1, randomInteger.generate() % 2);
     }
 
     /**
@@ -82,11 +92,13 @@ class RandomIntegerTest {
     void testChained_Long() {
         long min = 0;
         long max = 100;
-        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, Long.MAX_VALUE).odd().between(min, max);
-        Number result = randomInteger.generate();
-        assertEquals(1, result.longValue() % 2);
-        assertTrue(result.longValue() > min);
-        assertTrue(result.longValue() < max);
+        RandomStrategy<Long> strategy = new RandomLongStrategy();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L, strategy);
+        randomInteger.odd().between(min, max);
+        Long result = randomInteger.generate();
+        assertEquals(1, result % 2);
+        assertTrue(result > min);
+        assertTrue(result < max);
     }
 
     /**
@@ -94,7 +106,8 @@ class RandomIntegerTest {
      */
     @Test
     void testOddAndEven_Long() {
-        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L);
+        RandomStrategy<Long> strategy = new RandomLongStrategy();
+        RandomInteger<Long> randomInteger = new RandomInteger<>(0L, 100L, strategy);
         randomInteger.odd();
         randomInteger.even();
         assertNull(randomInteger.generate());
