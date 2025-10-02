@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 /**
  * Generates a random integer subject to constraints. Results can be chained.
+ * By default, the integer returned is between 0 and Integer.MAX_VALUE unless
+ * {@link RandomInteger#between(int, int)} is called.
  * For example {@code new RandomInteger().even().between(1, 100)}.
  */
 public class RandomInteger {
