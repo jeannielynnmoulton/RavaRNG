@@ -5,48 +5,47 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-/**
- * Generates a random integer subject to constraints. Results can be chained.
- * By default, the integer returned is between 0 and Integer.MAX_VALUE unless
- * {@link RandomInteger#between(int, int)} is called.
- * For example {@code new RandomInteger().even().between(1, 100)}.
- */
-public class RandomInteger {
+public class RandomInteger<IntegralType> {
+
     private final Random random = new Random();
-    private final List<Function<Integer,Boolean>> constraints = new ArrayList<>();
+
+    /**
+     * Holds the list of constraints that need to be satisfied
+     */
+    private final List<Function<Number,Boolean>> constraints = new ArrayList<>();
+
     /**
      * Max iterations allowed to generate number
      */
     private static final int LIMIT = 100;
 
-    // TODO: defaults are not stated in the documentation
     private int min = 0;
     private int max = Integer.MAX_VALUE;
 
     /**
      * Constrain the result to be even
      */
-    public RandomInteger even() {
-        constraints.add(i -> i % 2 == 0);
+    public RandomInteger<IntegralType> even() {
+        constraints.add(i -> (long)i % 2 == 0);
         return this;
     }
 
     /**
      * Constrain the result to be odd
      */
-    public RandomInteger odd() {
-        constraints.add(i -> i % 2 == 1);
-        return this;
+    public RandomInteger<IntegralType> odd() {
+        constraints.add(i -> (long)i % 2 == 1);
+        return (RandomInteger<IntegralType>) this;
     }
 
-    public Integer generate() {
+    public Number generate() {
         int counter = 0;
         boolean constraintEval = false;
-        Integer candidate = null;
+        Number candidate = null;
         while(counter++ <= LIMIT && !constraintEval) {
             // TODO: this introduces an error for large positive or negative max/min, and this is untested
-            candidate = random.nextInt(max-min)+min;
-            int finalCandidate = candidate;
+            candidate = random.nextLong(max-min)+min;
+            Number finalCandidate = candidate;
             constraintEval = constraints.stream()
                     .map(constraint -> constraint.apply(finalCandidate))
                     .reduce(true, (previous, result) -> previous & result);
@@ -59,7 +58,7 @@ public class RandomInteger {
      * @param min the min value, inclusive
      * @param max the max value, inclusive
      */
-    public RandomInteger between(int min, int max) {
+    public RandomInteger<IntegralType> between(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("min must be less than max");
         }
@@ -70,4 +69,3 @@ public class RandomInteger {
         return this;
     }
 }
-
