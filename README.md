@@ -8,3 +8,12 @@ Intended to showcase software engineering best practices using
 4) Software design principles, interfaces, abstraction, error recovery, etc.
 
 over different commits and is a work-in-progress.
+
+## Contributing
+
+Please contribute changes through pull requests. Spotless is used to check
+formatting. Run
+```
+mvn spotless:apply
+```
+on each commit to avoid formatting and whitespace diffs.
