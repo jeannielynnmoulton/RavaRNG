@@ -5,7 +5,6 @@ import com.example.generators.RandomStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Function;
 
 public class RandomInteger<T extends Number> {
@@ -25,9 +24,10 @@ public class RandomInteger<T extends Number> {
     private T min;
     private T max;
 
-    public RandomInteger(T min, T max, RandomStrategy<T> strategy) {
-        between(min, max);
+    public RandomInteger(RandomStrategy<T> strategy) {
         this.randomStrategy = strategy;
+        this.max = randomStrategy.defaultMax();
+        this.min = randomStrategy.defaultMin();
     }
 
     /**

@@ -10,4 +10,8 @@ public abstract class RandomStrategy<T> {
     }
 
     public abstract T next(T min, T max);
+
+    public abstract T defaultMax();
+
+    public abstract T defaultMin();
 }

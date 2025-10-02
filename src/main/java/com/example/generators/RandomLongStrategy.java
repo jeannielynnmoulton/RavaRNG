@@ -12,4 +12,14 @@ public class RandomLongStrategy extends RandomStrategy<Long>{
         return random.nextLong(max-min)+min;
     }
 
+    @Override
+    public Long defaultMax() {
+        return Long.MAX_VALUE;
+    }
+
+    @Override
+    public Long defaultMin() {
+        return 0L;
+    }
+
 }

@@ -12,4 +12,14 @@ public class RandomIntegerStrategy extends RandomStrategy<Integer> {
         return random.nextInt(max-min)+min;
     }
 
+    @Override
+    public Integer defaultMax() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public Integer defaultMin() {
+        return 0;
+    }
+
 }
